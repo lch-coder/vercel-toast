@@ -1,10 +1,13 @@
 {
   "name": "@super/vercel-toast",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "author": "super_fly",
   "license": "ISC",
-  "keywords": ["toast", "message"],
+  "keywords": [
+    "toast",
+    "message"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
