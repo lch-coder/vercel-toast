@@ -1,6 +1,6 @@
 {
   "name": "@super/vercel-toast",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "author": "super_fly",
   "license": "ISC",
@@ -28,7 +28,7 @@
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "watch": "npm run build -- --watch src",
     "prepublishOnly": "npm run build",
-    "release": "npx bumpp --push --tag --commit && pnpm publish"
+    "release": "npx bumpp --push --tag --commit"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.29.4",
