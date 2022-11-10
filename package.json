@@ -1,0 +1,40 @@
+{
+  "name": "@super/vercel-toast",
+  "version": "0.0.1",
+  "description": "",
+  "author": "super_fly",
+  "license": "ISC",
+  "keywords": ["toast", "message"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./index.css": "./dist/index.css"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "watch": "npm run build -- --watch src",
+    "prepublishOnly": "npm run build",
+    "release": "npx bumpp --push --tag --commit && pnpm publish"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.29.4",
+    "@types/node": "^18.11.9",
+    "bumpp": "^8.2.1",
+    "eslint": "^8.27.0",
+    "postcss": "^8.4.18",
+    "postcss-preset-env": "^7.8.2",
+    "tsup": "^6.4.0",
+    "typescript": "^4.8.4"
+  }
+}
