@@ -1,4 +1,5 @@
-name: Release
+name: Release (main)
+
 on:
   push:
     # Sequence of patterns matched against refs/tags
@@ -6,24 +7,48 @@ on:
       - "v*" # push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
-  publish-npm:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: install pnpm
-        uses: pnpm/action-setup@v2.0.1
-        id: pnpm-install
-        with:
-          version: 7
-          run_install: false
-
-      # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-          registry-url: 'https://registry.npmjs.org'
-      - run: pnpm install
-      - run: pnpm run prepublishOnly
-      - run: pnpm publish
+          node-version: 16
+
+      - run: npm i
+
+  publish-npm:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install
+        run: npm i
+
+      - name: Set registry
+        run: |
+          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+          npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+  create-release:
+    needs: publish-npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+
+      - run: npx changelogithub
+        env:
+          TOKEN: ${{secrets.TOKEN}}
